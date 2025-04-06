@@ -19,17 +19,10 @@ public class PlayerMovement : MonoBehaviour
     {
         // Получаем ввод игрока
         float moveX = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(moveX * speed, rb.linearVelocity.y);
 
         // Управление анимацией движения
-        if (Mathf.Abs(moveX) < 0.01f)
-        {
-            animator.SetFloat("Speed", 0); // Сброс анимации при остановке
-        }
-        else
-        {
-            animator.SetFloat("Speed", Mathf.Abs(moveX));
-        }
+        animator.SetFloat("Speed", Mathf.Abs(moveX));
 
         // Поворот персонажа в зависимости от направления
         if (moveX > 0 && !facingRight)
@@ -46,8 +39,10 @@ public class PlayerMovement : MonoBehaviour
     void Flip()
     {
         facingRight = !facingRight; // Меняем состояние
+
         Vector3 scale = transform.localScale;
-        scale.x = facingRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x); // Устанавливаем направление
-        transform.localScale = scale;
+        scale.x *= -1; // Инвертируем ось X
+        transform.localScale = scale; // Применяем изменение масштаба
     }
 }
+
