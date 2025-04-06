@@ -27,3 +27,4 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("Speed", 0); // Устанавливаем точный ноль для остановки
         }
     }
+}
