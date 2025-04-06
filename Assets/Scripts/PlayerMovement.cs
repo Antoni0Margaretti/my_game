@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(moveX * speed, rb.linearVelocity.y);
 
         // Управление анимацией движения
         animator.SetFloat("Speed", Mathf.Abs(moveX));
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         // Прыжок
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             animator.SetTrigger("Jump");
             isGrounded = false; // Устанавливаем флаг "в воздухе"
         }
