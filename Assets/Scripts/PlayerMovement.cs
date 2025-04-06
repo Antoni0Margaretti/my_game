@@ -7,8 +7,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
-    private bool facingRight = true; // Переменная для отслеживания направления персонажа
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -17,32 +15,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Получаем ввод игрока
         float moveX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
 
-        // Управление анимацией движения
-        animator.SetFloat("Speed", Mathf.Abs(moveX));
+        // Управление анимацией
+        animator.SetFloat("Speed", Mathf.Abs(moveX)); // Обновляем параметр скорости
 
-        // Поворот персонажа в зависимости от направления
-        if (moveX > 0 && !facingRight)
+        // Остановка движения (плавное торможение)
+        if (Mathf.Abs(moveX) < 0.01f)
         {
-            Flip();
-        }
-        else if (moveX < 0 && facingRight)
-        {
-            Flip();
+            animator.SetFloat("Speed", 0); // Устанавливаем точный ноль для остановки
         }
     }
-
-    // Метод для поворота персонажа
-    void Flip()
-    {
-        facingRight = !facingRight; // Меняем состояние
-
-        Vector3 scale = transform.localScale;
-        scale.x *= -1; // Инвертируем ось X
-        transform.localScale = scale; // Применяем изменение масштаба
-    }
-}
-
